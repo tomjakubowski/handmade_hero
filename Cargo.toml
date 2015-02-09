@@ -1,0 +1,9 @@
+[package]
+
+name = "libhandmade"
+version = "0.0.1"
+authors = ["Nicholas Mazzuca <npmazzuca@gmail.com>"]
+
+[dependencies]
+sdl2 = "*"
+sdl2-sys = "*"
