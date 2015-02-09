@@ -1,4 +1,4 @@
-use sdl2::render::{self, Renderer, Texture};
+use sdl2::render;
 use sdl2::video;
 use sdl2::pixels;
 
@@ -7,23 +7,23 @@ use std::mem;
 use pixelbuffer::PixelBuffer;
 
 pub struct Renderer<'a> {
-    renderer: Renderer,
-    texture: Texture<'a>,
+    renderer: render::Renderer,
+    texture: render::Texture<'a>,
 }
 
 impl<'a> Renderer<'a> {
-    pub fn new(width: i32, height: i32) -> HHRenderer<'a> {
-        let renderer = Renderer::new_with_window(width, height,
+    pub fn new(width: i32, height: i32) -> Renderer<'a> {
+        let renderer = render::Renderer::new_with_window(width, height,
              video::SHOWN).unwrap();
 
         // This is ugly, but necessary
         let texture = unsafe {
-            mem::transmute::<&Renderer, &Renderer>(&renderer).create_texture(
-                pixels::PixelFormatEnum::ARGB8888,
+            mem::transmute::<&render::Renderer, &render::Renderer>(&renderer)
+                .create_texture(pixels::PixelFormatEnum::ARGB8888,
                 render::TextureAccess::Streaming, (width, height)).unwrap()
         };
 
-        HHRenderer {
+        Renderer {
             renderer: renderer,
             texture: texture,
         }
