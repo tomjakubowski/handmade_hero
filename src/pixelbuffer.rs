@@ -45,19 +45,3 @@ impl<T> PixelBuffer<T> {
         self.pitch
     }
 }
-
-impl PixelBuffer<u32> {
-    pub fn render_weird_gradient(&mut self) {
-        let mut pixel = 0;
-        for y in 0..self.height {
-            for x in 0..self.width {
-
-                let green = x as u8;
-                let blue = y as u8;
-
-                self.buffer[pixel] = ((green as u32) << 8) | (blue as u32);
-                pixel += 1;
-            }
-        }
-    }
-}
