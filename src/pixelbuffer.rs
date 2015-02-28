@@ -2,7 +2,7 @@ use std::mem;
 use std::num::Int;
 use std::i32;
 
-pub struct PixelBuffer<T: Int> {
+pub struct PixelBuffer<T> {
     width: i32,
     height: i32,
     pitch: i32,

@@ -16,7 +16,8 @@ impl<'a> Renderer<'a> {
         let renderer = render::Renderer::new_with_window(width, height,
              video::SHOWN).unwrap();
 
-        // This is ugly, but necessary
+        // This is ugly, but necessary to put the texture and renderer in the
+        // same struct
         let texture = unsafe {
             mem::transmute::<&render::Renderer, &render::Renderer>(&renderer)
                 .create_texture(pixels::PixelFormatEnum::ARGB8888,
