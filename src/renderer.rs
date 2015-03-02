@@ -31,7 +31,7 @@ impl<'a> Renderer<'a> {
     }
 
     pub fn blit<T>(&mut self, buffer: &PixelBuffer<T>) {
-        let _ = 
+        let _ =
         unsafe { self.texture.update(None, mem::transmute(&*buffer.buffer),
             buffer.pitch() as i32)
         };
