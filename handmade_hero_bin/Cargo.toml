@@ -1,8 +1,0 @@
-[package]
-
-name = "handmade_hero_bin"
-version = "0.0.1"
-authors = ["Nicholas Mazzuca <npmazzuca@gmail.com>"]
-
-[dependencies.handmade_hero]
-path = "handmade_hero"

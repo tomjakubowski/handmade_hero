@@ -12,8 +12,7 @@ pub struct HandmadeHero<'a> {
     pub audio: AudioDevice<AudioBuffer>,
 }
 
-pub fn initialize<'a>(width: i32, height: i32, volume: f32)
-        -> HandmadeHero<'a> {
+pub fn initialize<'a>(width: i32, height: i32, volume: f32) -> HandmadeHero<'a> {
     let sdl_context = match init(INIT_EVERYTHING) {
         Ok(c) => c,
         Err(e) => panic!("SDL couldn't initialize: {}", e),
@@ -23,11 +22,13 @@ pub fn initialize<'a>(width: i32, height: i32, volume: f32)
     let buffer = PixelBuffer::new(width, height, 0u32);
     let game_loop = GameLoop::new(sdl_context);
 
+    let freq = 44100;
+    let channels = 2;
     let spec = AudioSpecDesired {
-        freq: 44100,
-        channels: 2,
+        freq: freq,
+        channels: channels,
         samples: 0,
-        callback: AudioBuffer::new(volume),
+        callback: AudioBuffer::new(volume, freq * channels as i32),
     };
     let audio = match spec.open_audio_device(None, false) {
         Ok(d) => d,
