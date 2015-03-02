@@ -33,7 +33,7 @@ fn sine_wave(device: &mut AudioDevice<AudioBuffer>, hz: usize) {
 
 fn main() {
     let hz = 262;
-    let mut hh = handmade_hero::initialize(640, 480, 0.5);
+    let mut hh = handmade_hero::initialize(640, 480, 0.3);
 
     let mut x_offset = 0i32;
     let mut y_offset = 0i32;
