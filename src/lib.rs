@@ -10,3 +10,4 @@ pub use handmade::*;
 pub mod renderer;
 pub mod pixelbuffer;
 pub mod game;
+pub mod audio;

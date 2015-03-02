@@ -1,11 +1,20 @@
-use sdl2::{init, INIT_VIDEO};
+use sdl2::{init, INIT_EVERYTHING};
+use sdl2::audio::{AudioDevice, AudioSpecDesired};
 use renderer::Renderer;
 use pixelbuffer::PixelBuffer;
 use game::GameLoop;
+use audio::AudioBuffer;
 
-pub fn initialize<'a>(width: i32, height: i32) ->
-        (Renderer<'a>, PixelBuffer<u32>, GameLoop<'a>) {
-    let sdl_context = match init(INIT_VIDEO) {
+pub struct HandmadeHero<'a> {
+    pub renderer: Renderer<'a>,
+    pub pixel_buffer: PixelBuffer<u32>,
+    pub game_loop: GameLoop<'a>,
+    pub audio: AudioDevice<AudioBuffer>,
+}
+
+pub fn initialize<'a>(width: i32, height: i32, volume: f32)
+        -> HandmadeHero<'a> {
+    let sdl_context = match init(INIT_EVERYTHING) {
         Ok(c) => c,
         Err(e) => panic!("SDL couldn't initialize: {}", e),
     };
@@ -14,5 +23,21 @@ pub fn initialize<'a>(width: i32, height: i32) ->
     let buffer = PixelBuffer::new(width, height, 0u32);
     let game_loop = GameLoop::new(sdl_context);
 
-    (renderer, buffer, game_loop)
+    let spec = AudioSpecDesired {
+        freq: 44100,
+        channels: 2,
+        samples: 0,
+        callback: AudioBuffer::new(volume),
+    };
+    let audio = match spec.open_audio_device(None, false) {
+        Ok(d) => d,
+        Err(e) => panic!("{:?}", e)
+    };
+
+    HandmadeHero {
+        renderer: renderer,
+        pixel_buffer: buffer,
+        game_loop: game_loop,
+        audio: audio,
+    }
 }

@@ -12,11 +12,6 @@ pub struct PixelBuffer<T> {
 impl<T: Int> PixelBuffer<T> {
     pub fn new(width: i32, height: i32, setting: T)
             -> PixelBuffer<T> {
-        let mut buffer: Vec<T> = Vec::with_capacity((width * height) as usize);
-        for _ in 0..(width * height) {
-            buffer.push(setting);
-        }
-
         let pitch = width as usize * mem::size_of::<T>();
 
         if pitch > i32::MAX as usize {
@@ -27,7 +22,7 @@ impl<T: Int> PixelBuffer<T> {
             width: width,
             height: height,
             pitch: pitch as i32,
-            buffer: buffer.into_boxed_slice(),
+            buffer: vec![setting; (width * height) as usize].into_boxed_slice(),
         }
     }
 }
