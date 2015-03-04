@@ -1,8 +1,3 @@
-use sdl2::keyboard::get_scancode_from_key;
-use sdl2::scancode::ScanCode;
-use sdl2::keycode::KeyCode;
-
-#[allow(dead_code)]
 /// Based on scancodes, not keycodes
 /// So the same button on any keyboard will say where that would be on a qwerty
 pub mod keys {
@@ -74,72 +69,6 @@ pub mod keys {
             const ENTER = 1 << 57,
             const SPACE = 1 << 58,
             const QUIT = 1 << 59,
-        }
-    }
-}
-use self::keys::Keys;
-
-impl Keys {
-    pub fn from_keycode(keycode: KeyCode) -> Keys {
-        let scancode = get_scancode_from_key(keycode);
-        match scancode {
-            ScanCode::A => keys::A,
-            ScanCode::B => keys::B,
-            ScanCode::C => keys::C,
-            ScanCode::D => keys::D,
-            ScanCode::E => keys::E,
-            ScanCode::F => keys::F,
-            ScanCode::G => keys::G,
-            ScanCode::H => keys::H,
-            ScanCode::I => keys::I,
-            ScanCode::J => keys::J,
-            ScanCode::K => keys::K,
-            ScanCode::L => keys::L,
-            ScanCode::M => keys::M,
-            ScanCode::N => keys::N,
-            ScanCode::O => keys::O,
-            ScanCode::P => keys::P,
-            ScanCode::Q => keys::Q,
-            ScanCode::R => keys::R,
-            ScanCode::S => keys::S,
-            ScanCode::T => keys::T,
-            ScanCode::U => keys::U,
-            ScanCode::V => keys::V,
-            ScanCode::W => keys::W,
-            ScanCode::X => keys::X,
-            ScanCode::Y => keys::Y,
-            ScanCode::Z => keys::Z,
-            ScanCode::Num1 => keys::NUM1,
-            ScanCode::Num2 => keys::NUM2,
-            ScanCode::Num3 => keys::NUM3,
-            ScanCode::Num4 => keys::NUM4,
-            ScanCode::Num5 => keys::NUM5,
-            ScanCode::Num6 => keys::NUM6,
-            ScanCode::Num7 => keys::NUM7,
-            ScanCode::Num8 => keys::NUM8,
-            ScanCode::Num9 => keys::NUM9,
-            ScanCode::Num0 => keys::NUM0,
-            ScanCode::Return => keys::ENTER,
-            ScanCode::Escape => keys::ESCAPE,
-            ScanCode::Backspace => keys::BACKSPACE,
-            ScanCode::Tab => keys::TAB,
-            ScanCode::Space => keys::SPACE,
-            ScanCode::Minus => keys::MINUS,
-            ScanCode::Equals => keys::PLUS,
-            ScanCode::LeftBracket => keys::LEFTBRACKET,
-            ScanCode::RightBracket => keys::RIGHTBRACKET,
-            ScanCode::Backslash => keys::BACKSLASH,
-            ScanCode::Semicolon => keys::COLON,
-            ScanCode::Apostrophe => keys::QUOTE,
-            ScanCode::Grave => keys::TILDE,
-            ScanCode::Comma => keys::COMMA,
-            ScanCode::Period => keys::PERIOD,
-            ScanCode::Slash => keys::SLASH,
-            ScanCode::Up => keys::UP,
-            ScanCode::Down => keys::DOWN,
-            ScanCode::Left => keys::LEFT,
-            ScanCode::Right => keys::RIGHT,
-            _ => keys::NONE,
         }
     }
 }

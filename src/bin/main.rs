@@ -8,6 +8,8 @@ mod input;
 use audio::{SineCmd, SineWave};
 
 use handmade_hero::pixelbuffer::PixelBuffer;
+use handmade_hero::audio::AudioDevice;
+use handmade_hero::renderer::Renderer;
 
 fn weird_gradient_pattern(buff: &mut PixelBuffer<u32>, (xoff, yoff): (i32, i32)) {
     let mut pixel = 0;
@@ -25,7 +27,7 @@ fn weird_gradient_pattern(buff: &mut PixelBuffer<u32>, (xoff, yoff): (i32, i32))
 fn main() {
     let hz = 231.6;
     let (audio_func, audio_hz) = SineWave::new(hz, 0.2);
-    let mut hh = handmade_hero::initialize(640, 480,
+    let mut hh = handmade_hero::sdl::initialize(640, 480,
         Box::new(audio_func));
 
     let mut x_offset = 0i32;

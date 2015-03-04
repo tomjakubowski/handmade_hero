@@ -1,7 +1,11 @@
 [package]
 name = "handmade_hero"
-version = "0.0.13"
+version = "0.0.14"
 authors = ["Nicholas Mazzuca <npmazzuca@gmail.com>"]
+
+[lib]
+name = "handmade_hero"
+path = "src/lib.rs"
 
 [[bin]]
 name = "handmade_hero_bin"
