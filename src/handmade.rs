@@ -2,7 +2,7 @@ use sdl2::{init, INIT_EVERYTHING};
 use renderer::Renderer;
 use pixelbuffer::PixelBuffer;
 use game::GameLoop;
-use audio::AudioDevice;
+use audio::{AudioDevice, AudioFunction};
 
 pub struct HandmadeHero<'a> {
     pub renderer: Renderer<'a>,
@@ -11,7 +11,8 @@ pub struct HandmadeHero<'a> {
     pub audio: AudioDevice,
 }
 
-pub fn initialize<'a>(width: i32, height: i32, volume: f32) -> HandmadeHero<'a> {
+pub fn initialize<'a>(width: i32, height: i32, function: Box<AudioFunction>)
+        -> HandmadeHero<'a> {
     let sdl_context = match init(INIT_EVERYTHING) {
         Ok(c) => c,
         Err(e) => panic!("SDL couldn't initialize: {}", e),
@@ -20,7 +21,7 @@ pub fn initialize<'a>(width: i32, height: i32, volume: f32) -> HandmadeHero<'a> 
     let renderer = Renderer::new(width, height);
     let buffer = PixelBuffer::new(width, height, 0u32);
     let game_loop = GameLoop::new(sdl_context);
-    let audio = AudioDevice::new(volume);
+    let audio = AudioDevice::new(function);
 
     HandmadeHero {
         renderer: renderer,
