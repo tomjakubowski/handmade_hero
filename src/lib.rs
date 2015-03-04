@@ -11,3 +11,4 @@ pub mod renderer;
 pub mod pixelbuffer;
 pub mod game;
 pub mod audio;
+pub mod input;

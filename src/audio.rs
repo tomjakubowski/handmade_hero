@@ -2,12 +2,13 @@ use sdl2::audio::{AudioCallback, AudioSpecDesired};
 use sdl2::audio::AudioDevice as SdlAudioDevice;
 
 pub trait AudioFunction: Send {
-    fn call(&mut self, out: &mut [f32], bitrate: usize);
+    fn call(&mut self, out: &mut [f32], frequency: usize, channels: usize);
 }
 
 struct AudioWrap {
     pub function: Box<AudioFunction>,
-    bitrate: usize,
+    frequency: usize,
+    channels: usize,
 }
 
 impl AudioWrap {
@@ -15,10 +16,12 @@ impl AudioWrap {
     ///
     /// 0.0 <= volume <= 1.0
     /// per_sec should be channels * frequency
-    pub fn new(function: Box<AudioFunction>, bitrate: usize) -> AudioWrap {
+    pub fn new(function: Box<AudioFunction>, frequency: usize, channels: usize)
+            -> AudioWrap {
         AudioWrap {
             function: function,
-            bitrate: bitrate,
+            frequency: frequency,
+            channels: channels,
         }
     }
 }
@@ -27,7 +30,7 @@ impl AudioCallback for AudioWrap {
     pub type Channel = f32;
 
     fn callback(&mut self, out: &mut [f32]) {
-        self.function.call(out, self.bitrate);
+        self.function.call(out, self.frequency, self.channels);
     }
 }
 
@@ -43,7 +46,7 @@ impl AudioDevice {
             freq: freq,
             channels: channels,
             samples: 0,
-            callback: AudioWrap::new(function, freq as usize * channels as usize),
+            callback: AudioWrap::new(function, freq as usize, channels as usize),
         };
         let audio = match spec.open_audio_device(None, false) {
             Ok(d) => d,

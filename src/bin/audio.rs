@@ -1,5 +1,6 @@
 use handmade_hero::audio::AudioFunction;
 use std::sync::mpsc::{self, Sender, Receiver};
+use std::iter;
 
 #[allow(dead_code)]
 pub enum SineCmd {
@@ -27,7 +28,7 @@ impl SineWave {
 }
 
 impl AudioFunction for SineWave {
-    fn call(&mut self, out: &mut [f32], bitrate: usize) {
+    fn call(&mut self, out: &mut [f32], frequency: usize, channels: usize) {
         use std::num::Float;
         use std::f32::consts::PI;
 
@@ -41,13 +42,15 @@ impl AudioFunction for SineWave {
             Err(_) => {},
         }
 
-        let period = bitrate as f32 / self.hz;
+        let period = frequency as f32 / self.hz;
 
-        for n in out.iter_mut() {
+        for i in iter::range_step(0, out.len(), channels) {
             self.tsin += 2.0 * PI / period;
-
-            *n = self.tsin.sin() * self.vol;
+            for j in 0..channels {
+                out[i + j] = self.tsin.sin() * self.vol;
+            }
         }
+
         self.tsin -= (out.len() / period as usize) as f32 * 2.0 * PI;
     }
 }

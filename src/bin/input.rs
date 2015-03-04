@@ -1,4 +1,4 @@
-use handmade_hero::game::keys;
+use handmade_hero::input::keys;
 
 pub fn direction(keys: keys::Keys) -> (isize, isize) {
     let mut x = 0;
