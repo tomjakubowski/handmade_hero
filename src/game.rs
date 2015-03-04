@@ -42,22 +42,24 @@ impl<'a> Iterator for GameLoop<'a> {
     type Item = Keys;
 
     fn next(&mut self) -> Option<Keys> {
-        match self.event_pump.poll_event() {
-            Some(e) => match e {
-                Event::Quit {..} => self.keys.insert(keys::QUIT),
-                Event::KeyDown {keycode, repeat, ..} => {
-                    if !repeat {
-                        self.key_down(keycode);
-                    }
+        'iter: loop {
+            match self.event_pump.poll_event() {
+                Some(e) => match e {
+                    Event::Quit {..} => self.keys.insert(keys::QUIT),
+                    Event::KeyDown {keycode, repeat, ..} => {
+                        if !repeat {
+                            self.key_down(keycode);
+                        }
+                    },
+                    Event::KeyUp {keycode, repeat, ..} => {
+                        if !repeat {
+                            self.key_up(keycode);
+                        }
+                    },
+                    _ => {},
                 },
-                Event::KeyUp {keycode, repeat, ..} => {
-                    if !repeat {
-                        self.key_up(keycode);
-                    }
-                },
-                _ => {},
-            },
-            None => {},
+                None => break 'iter,
+            }
         }
 
         if self.keys.intersects(keys::ESCAPE | keys::QUIT) {

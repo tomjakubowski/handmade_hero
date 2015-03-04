@@ -4,16 +4,16 @@ pub fn direction(keys: keys::Keys) -> (isize, isize) {
     let mut x = 0;
     let mut y = 0;
 
-    if keys.contains(keys::UP) {
+    if keys.intersects(keys::UP | keys::W) {
         y += 100;
     }
-    if keys.contains(keys::DOWN) {
+    if keys.intersects(keys::DOWN | keys::S) {
         y -= 100;
     }
-    if keys.contains(keys::LEFT) {
+    if keys.intersects(keys::LEFT | keys::A) {
         x += 100;
     }
-    if keys.contains(keys::RIGHT) {
+    if keys.intersects(keys::RIGHT | keys::D) {
         x -= 100;
     }
 
