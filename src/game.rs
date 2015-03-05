@@ -1,4 +1,4 @@
 use std::iter::Iterator;
-use input::keys::Keys;
+use input::Input;
 
-pub trait GameLoop: Iterator<Item = Keys> {}
+pub trait GameLoop: Iterator<Item = Input> {}

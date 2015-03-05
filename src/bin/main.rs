@@ -11,7 +11,8 @@ use handmade_hero::pixelbuffer::PixelBuffer;
 use handmade_hero::audio::AudioDevice;
 use handmade_hero::renderer::Renderer;
 
-fn weird_gradient_pattern(buff: &mut PixelBuffer<u32>, (xoff, yoff): (i32, i32)) {
+fn weird_gradient_pattern(buff: &mut PixelBuffer<u32>,
+        (xoff, yoff): (i32, i32)) {
     let mut pixel = 0;
     for y in 0..buff.height() {
         for x in 0..buff.width() {

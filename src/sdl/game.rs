@@ -3,6 +3,7 @@ use sdl2::event::{Event, EventPump};
 use sdl2::keycode::KeyCode;
 
 use input::keys::{self, Keys};
+use input::Input;
 use sdl::input::from_keycode;
 
 use game;
@@ -68,7 +69,7 @@ impl<'a> Iterator for GameLoop<'a> {
         if self.keys.intersects(keys::ESCAPE | keys::QUIT) {
             None
         } else {
-            Some(self.keys)
+            Some(Input { keys: self.keys } )
         }
     }
 }
