@@ -2,6 +2,8 @@ use std::mem;
 use std::num::Int;
 use std::i32;
 
+use FatalResult;
+
 pub struct PixelBuffer<T> {
     width: i32,
     height: i32,
@@ -11,19 +13,19 @@ pub struct PixelBuffer<T> {
 
 impl<T: Int> PixelBuffer<T> {
     pub fn new(width: i32, height: i32, setting: T)
-            -> PixelBuffer<T> {
+            -> FatalResult<PixelBuffer<T>> {
         let pitch = width as usize * mem::size_of::<T>();
 
         if pitch > i32::MAX as usize {
-            panic!("width * sizeof(T) (pitch) is too large");
+            return Err(String::from_str("width * sizeof(T) (pitch) is too large"));
         }
 
-        PixelBuffer {
+        Ok(PixelBuffer {
             width: width,
             height: height,
             pitch: pitch as i32,
             buffer: vec![setting; (width * height) as usize].into_boxed_slice(),
-        }
+        })
     }
 }
 

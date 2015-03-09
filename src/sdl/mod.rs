@@ -10,6 +10,8 @@ use super::pixelbuffer::PixelBuffer;
 use super::game::GameLoop;
 use super::audio::{AudioDevice, AudioFunction};
 
+use FatalResult;
+
 pub struct HandmadeHero<'a> {
     pub renderer: renderer::Renderer<'a>,
     pub pixel_buffer: PixelBuffer<u32>,
@@ -18,21 +20,27 @@ pub struct HandmadeHero<'a> {
 }
 
 pub fn initialize<'a>(width: i32, height: i32, function: Box<AudioFunction>)
-        -> HandmadeHero<'a> {
+        -> FatalResult<HandmadeHero<'a>> {
     let sdl_context = match init(INIT_EVERYTHING) {
         Ok(c) => c,
-        Err(e) => panic!("SDL couldn't initialize: {}", e),
+        Err(e) => return Err(e),
     };
 
     let renderer = renderer::Renderer::new(width, height);
-    let buffer = PixelBuffer::new(width, height, 0u32);
+    let buffer = match PixelBuffer::new(width, height, 0u32) {
+        Ok(b) => b,
+        Err(e) => return Err(e),
+    };
     let game_loop = game::GameLoop::new(sdl_context);
-    let audio = audio::AudioDevice::new(function);
+    let audio = match audio::AudioDevice::new(function) {
+        Ok(a) => a,
+        Err(e) => return Err(e),
+    };
 
-    HandmadeHero {
+    Ok(HandmadeHero {
         renderer: renderer,
         pixel_buffer: buffer,
         game_loop: game_loop,
         audio: audio,
-    }
+    })
 }

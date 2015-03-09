@@ -74,6 +74,6 @@ pub mod keys {
 }
 
 pub struct Input {
-    keys: keys::Keys,
+    pub keys: keys::Keys,
     // TODO: Add clock
 }

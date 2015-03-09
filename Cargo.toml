@@ -16,6 +16,7 @@ path = "src/bin/main.rs"
 bitflags = "*"
 sdl2 = "*"
 sdl2-sys = "*"
+libc = "*"
 
 [profile.dev]
 opt-level = 2

@@ -1,6 +1,8 @@
 use sdl2::audio as sdl;
 use audio;
 
+use FatalResult;
+
 struct AudioWrap {
     pub function: Box<audio::AudioFunction>,
     frequency: usize,
@@ -35,7 +37,7 @@ pub struct AudioDevice {
 }
 
 impl AudioDevice {
-    pub fn new(function: Box<audio::AudioFunction>) -> AudioDevice {
+    pub fn new(function: Box<audio::AudioFunction>) -> FatalResult<AudioDevice> {
         let freq = 44100;
         let channels = 2;
         let spec = sdl::AudioSpecDesired {
@@ -44,13 +46,13 @@ impl AudioDevice {
             samples: 0,
             callback: AudioWrap::new(function, freq as usize, channels as usize),
         };
-        let audio = match spec.open_audio_device(None, false) {
-            Ok(d) => d,
-            Err(e) => panic!("{:?}", e)
-        };
-
-        AudioDevice {
-            sdl_device: audio,
+        match spec.open_audio_device(None, false) {
+            Ok(audio) => {
+                Ok(AudioDevice {
+                    sdl_device: audio,
+                })
+            },
+            Err(e) => Err(e),
         }
     }
 }

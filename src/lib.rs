@@ -13,3 +13,5 @@ pub mod pixelbuffer;
 pub mod renderer;
 
 pub mod sdl;
+
+pub type FatalResult<T> = Result<T, String>;

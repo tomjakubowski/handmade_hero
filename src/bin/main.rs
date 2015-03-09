@@ -1,4 +1,4 @@
-#![feature(core)]
+#![feature(core, exit_status)]
 
 extern crate handmade_hero;
 
@@ -10,6 +10,8 @@ use audio::{SineCmd, SineWave};
 use handmade_hero::pixelbuffer::PixelBuffer;
 use handmade_hero::audio::AudioDevice;
 use handmade_hero::renderer::Renderer;
+
+use std::env;
 
 fn weird_gradient_pattern(buff: &mut PixelBuffer<u32>,
         (xoff, yoff): (i32, i32)) {
@@ -28,8 +30,15 @@ fn weird_gradient_pattern(buff: &mut PixelBuffer<u32>,
 fn main() {
     let hz = 231.6;
     let (audio_func, audio_hz) = SineWave::new(hz, 0.2);
-    let mut hh = handmade_hero::sdl::initialize(640, 480,
-        Box::new(audio_func));
+    let mut hh =
+    match handmade_hero::sdl::initialize(640, 480, Box::new(audio_func)) {
+        Ok(h) => h,
+        Err(e) => {
+            println!("Error: {}", e);
+            env::set_exit_status(1);
+            return;
+        },
+    };
 
     let mut x_offset = 0i32;
     let mut y_offset = 0i32;
@@ -37,7 +46,7 @@ fn main() {
     let mut hz_old = hz;
     hh.audio.play();
     for e in hh.game_loop {
-        let (x, y) = input::direction(e);
+        let (x, y) = input::direction(e.keys);
         x_offset += x as i32 / 20;
         y_offset += y as i32 / 20;
 

@@ -43,9 +43,9 @@ impl<'a> GameLoop<'a> {
 }
 
 impl<'a> Iterator for GameLoop<'a> {
-    type Item = Keys;
+    type Item = Input;
 
-    fn next(&mut self) -> Option<Keys> {
+    fn next(&mut self) -> Option<Input> {
         'iter: loop {
             match self.event_pump.poll_event() {
                 Some(e) => match e {
